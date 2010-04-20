@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jsrequire}
-  s.version = "0.0.5"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["aekym"]
-  s.date = %q{2010-04-19}
+  s.date = %q{2010-04-20}
   s.description = %q{Organizes requirements of assets in JavaScript files, resolved dependencies of js files and helps include depending css files.}
   s.email = %q{me@aekym.com}
   s.extra_rdoc_files = [
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
      "test/fixtures/javascripts/a.js",
      "test/fixtures/javascripts/c.js",
      "test/fixtures/javascripts/file.with.dot.js",
+     "test/fixtures/javascripts/hook.js",
      "test/fixtures/javascripts/namespace/a.js",
      "test/fixtures/javascripts/namespace/json_reader.js",
      "test/fixtures/javascripts/namespace/norequire.js",
@@ -41,6 +42,7 @@ Gem::Specification.new do |s|
      "test/fixtures/javascripts/requirecss.js",
      "test/fixtures/stylesheets/style.css",
      "test/helper.rb",
+     "test/test_hooks.rb",
      "test/test_jsrequire.rb"
   ]
   s.homepage = %q{http://github.com/aekym/jsrequire}
@@ -50,6 +52,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Organizes requirements of assets in JavaScript files}
   s.test_files = [
     "test/helper.rb",
+     "test/test_hooks.rb",
      "test/test_jsrequire.rb"
   ]
 
