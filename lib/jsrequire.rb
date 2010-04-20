@@ -11,6 +11,13 @@ class JsRequire
 
     loadpaths = [loadpaths] unless loadpaths.is_a?(Array)
     @additional_loadpaths = JsRequire::normalize_filepaths(loadpaths.compact)
+
+    @preprocessors = Hash.new { |h,k| h[k] = [] }
+  end
+
+
+  def on(action = nil, &block)
+    @preprocessors[action] << block
   end
 
 
@@ -135,6 +142,17 @@ class JsRequire
     raise FileNotFoundInLoadpath, "File '#{filename}' not found in loadpaths '#{loadpaths.join("', '")}'."
   end
 
+  def exec_preprocessor(action, parameter)
+    trigger = Proc.new do |cb|
+      res = cb.call(action, parameter)
+      action, parameter = res if res.is_a?(Array) && res.size == 2
+    end
+
+    @preprocessors[action].each(&trigger)
+    @preprocessors[nil].each(&trigger)
+
+    [action, parameter]
+  end
 
   def extract_dependencies(filename)
     is_require = true
@@ -142,11 +160,19 @@ class JsRequire
 
     File.open(filename, "r") do |f|
       begin
-        case line = f.gets
-        when /^\s*\/\*\s*require\s*(\S+)\s*\*\/\s*$/
-          js << "#{$1}.js"
-        when /^\s*\/\*\s*css\s*(\S+)\s*\*\/\s*$/
-          @stylesheets[filename] << $1 + ".css"
+        line = f.gets
+        if line =~ /^\s*\/\*\s*(\w+)(.+)\*\/\s*$/
+          action = $1.strip
+          parameter = $2.strip
+
+          # fire callbacks
+          #
+          action, parameter = exec_preprocessor(action, parameter)
+
+          case action
+          when "require" then js << "#{parameter}.js"
+          when "css"     then @stylesheets[filename] << parameter + ".css"
+          end
         else
           is_require = false
         end
