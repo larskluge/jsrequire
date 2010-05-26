@@ -13,11 +13,19 @@ class JsRequire
     @additional_loadpaths = JsRequire::normalize_filepaths(loadpaths.compact)
 
     @preprocessors = Hash.new { |h,k| h[k] = [] }
+
+    on("css", &method(:collect_css))
   end
 
 
   def on(action = nil, &block)
     @preprocessors[action] << block
+  end
+
+
+  def collect_css(action, param)
+    @css << param + ".css"
+    nil
   end
 
 
@@ -37,14 +45,14 @@ class JsRequire
   # }
   #
   def resolve_dependencies(files)
-    @stylesheets = Hash.new { |h,k| h[k] = [] }
+    @css = []
     @extract_loadpaths = extract_loadpaths(files)
 
     js = extract_dependencies_recursive(JsRequire::normalize_filepaths(files))
 
     {
       :javascripts => js,
-      :stylesheets => @stylesheets.map { |k,v| v }.flatten.uniq.sort
+      :stylesheets => @css.uniq.sort
     }
   end
 
@@ -171,7 +179,6 @@ class JsRequire
 
           case action
           when "require" then js << "#{parameter}.js"
-          when "css"     then @stylesheets[filename] << parameter + ".css"
           end
         else
           is_require = false
@@ -197,7 +204,6 @@ class JsRequire
 
     js
   end
-
 
 end
 
