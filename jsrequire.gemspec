@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jsrequire}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["aekym"]
-  s.date = %q{2010-04-20}
+  s.date = %q{2010-05-26}
   s.description = %q{Organizes requirements of assets in JavaScript files, resolved dependencies of js files and helps include depending css files.}
   s.email = %q{me@aekym.com}
   s.extra_rdoc_files = [
