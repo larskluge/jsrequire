@@ -1,3 +1,3 @@
-/* require a */
-/* require b */
+/* js a */
+/* js b */
 

@@ -18,7 +18,7 @@ A JavaScript file
 
 On top of a file add something like:
 
-    /* require foo/bar */
+    /* js foo/bar */
     /* css baz */
 
 This requires the js file foo/bar.js and the stylesheet baz.css. Dependencies are resolved in right order of require statments over all files.

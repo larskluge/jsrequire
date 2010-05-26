@@ -1,1 +1,1 @@
-/* require file.with.dot */
+/* js file.with.dot */

@@ -1,2 +1,2 @@
-/* require b */
+/* js b */
 

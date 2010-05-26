@@ -178,7 +178,7 @@ class JsRequire
           action, parameter = exec_preprocessor(action, parameter)
 
           case action
-          when "require" then js << "#{parameter}.js"
+          when "js" then js << "#{parameter}.js"
           end
         else
           is_require = false

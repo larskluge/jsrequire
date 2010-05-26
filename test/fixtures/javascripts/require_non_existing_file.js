@@ -1,2 +1,2 @@
-/* require afileyouwillneverfind */
+/* js afileyouwillneverfind */
 

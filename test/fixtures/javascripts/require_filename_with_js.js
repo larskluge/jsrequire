@@ -1,1 +1,1 @@
-/* require namespace.json_reader */
+/* js namespace.json_reader */

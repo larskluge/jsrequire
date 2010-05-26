@@ -1,3 +1,3 @@
-/* require namespace.a */
+/* js namespace.a */
 
 

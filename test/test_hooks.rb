@@ -67,12 +67,12 @@ class TestHooks < Test::Unit::TestCase
       assert general_called && specific_called, "Callbacks were not called"
     end
 
-    should "rewrite line to require" do
+    should "rewrite line to js-action" do
       called = false
       deps = require("hook.js") do
         @jsrequire.on("view") do |action, params|
           called = true
-          ["require", "norequire"]
+          ["js", "norequire"]
         end
       end
 
@@ -81,18 +81,18 @@ class TestHooks < Test::Unit::TestCase
       assert_match /norequire\.js$/, deps[:javascripts].first
     end
 
-    should "rewrite line to require" do
+    should "skip required view because hook drops it" do
       called = false
       deps = require("hook.js") do
         @jsrequire.on("view") do |action, params|
           called = true
-          ["require", "norequire"]
+          nil
         end
       end
 
       assert called, "Callback not fired"
-      assert_equal 2, deps[:javascripts].size
-      assert_match /norequire\.js$/, deps[:javascripts].first
+      assert_equal 1, deps[:javascripts].size
+      assert_match /hook\.js$/, deps[:javascripts].first
     end
 
   end
