@@ -164,12 +164,17 @@ class JsRequire
     js = []
 
     File.open(filename, "r").each_line do |line|
-      if line =~ /^\s*\/\*\s*(\w+)(.+)\*\/\s*$/
+      if line =~ /^
+          \s*         # optional leading whitespace
+          \/\*\s*     # opening comment
+          (\w+)\s+    # action
+          (.+)        # parameter
+          \*\/\s*$/x  # closing comment
+
         action = $1.strip
         parameter = $2.strip
 
         # fire callbacks
-        #
         action, parameter = exec_preprocessor(action, parameter)
 
         case action
