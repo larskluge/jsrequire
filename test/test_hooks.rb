@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/helper.rb'
+require 'helper.rb'
 
 class TestHooks < Test::Unit::TestCase
 
