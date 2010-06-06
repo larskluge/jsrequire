@@ -163,25 +163,21 @@ class JsRequire
     is_require = true
     js = []
 
-    File.open(filename, "r") do |f|
-      begin
-        line = f.gets
-        if line =~ /^\s*\/\*\s*(\w+)(.+)\*\/\s*$/
-          action = $1.strip
-          parameter = $2.strip
+    File.open(filename, "r").each_line do |line|
+      if line =~ /^\s*\/\*\s*(\w+)(.+)\*\/\s*$/
+        action = $1.strip
+        parameter = $2.strip
 
-          # fire callbacks
-          #
-          action, parameter = exec_preprocessor(action, parameter)
+        # fire callbacks
+        #
+        action, parameter = exec_preprocessor(action, parameter)
 
-          case action
-          when "js" then js << "#{parameter}.js"
-          end
-        else
-          is_require = false
+        case action
+        when "js" then js << "#{parameter}.js"
         end
-
-      end while is_require
+      else
+        break
+      end
     end
 
     js.uniq.map { |f| find_file(f) }
