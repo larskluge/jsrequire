@@ -42,6 +42,8 @@ class JsRequire
   # }
   #
   def resolve_dependencies(files)
+    files = [files] unless files.is_a?(Enumerable)
+
     @css = []
     @extract_loadpaths = extract_loadpaths(files)
 
