@@ -170,10 +170,10 @@ class JsRequire
           \s*         # optional leading whitespace
           \/\*\s*     # opening comment
           (\w+)\s+    # action
-          (.+)        # parameter
+          (.*)        # parameter
           \*\/\s*$/x  # closing comment
 
-        action = $1.strip
+        action = $1
         parameter = $2.strip
 
         # fire callbacks
