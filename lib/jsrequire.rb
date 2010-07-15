@@ -128,10 +128,11 @@ class JsRequire
   end
 
 
-  def find_file(filename)
+  def find_file(filename, current_dir = nil)
     return filename if is_file?(filename)
 
     loadpaths = @extract_loadpaths + @additional_loadpaths
+    loadpaths.unshift(current_dir) if current_dir && filename =~ /^\./
     loadpaths.each do |path|
       file = File.expand_path(filename, path)
       return file if is_file?(file)
@@ -141,7 +142,7 @@ class JsRequire
     if filename =~ /\./
       loadpaths.each do |path|
         ext = File.extname(filename)
-        file = File.expand_path(filename.gsub(/#{ext}$/, '').gsub('.', '/') + ext, path)
+        file = File.expand_path(filename.gsub(/#{ext}$/, '').gsub(/^\./, '').gsub('.', '/') + ext, path)
         return file if is_file?(file)
       end
     end
@@ -187,7 +188,7 @@ class JsRequire
       end
     end
 
-    js.uniq.map { |f| find_file(f) }
+    js.uniq.map { |f| find_file(f, File.dirname(filename)) }
   end
 
 

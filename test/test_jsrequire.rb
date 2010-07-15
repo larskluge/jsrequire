@@ -91,6 +91,10 @@ class TestJsRequire < Test::Unit::TestCase
       assert_requires("require_namespaced_file.js", "namespace/a.js")
     end
 
+    should "be able to require a file via relative namespaces" do
+      assert_requires("require_relative_namespaced_file.js", ["relative_namespace/a.js", "relative_namespace/b.js", "relative_namespace/sub/a.js"])
+    end
+
     should "be able to require a file with dots in filename" do
       assert_requires("require_filename_with_dot.js", "file.with.dot.js")
     end
