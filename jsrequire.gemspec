@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jsrequire}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["aekym"]
-  s.date = %q{2010-05-26}
+  s.date = %q{2010-07-28}
   s.description = %q{Organizes requirements of assets in JavaScript files, resolved dependencies of js files and helps include depending css files.}
   s.email = %q{me@aekym.com}
   s.extra_rdoc_files = [
@@ -35,10 +35,14 @@ Gem::Specification.new do |s|
      "test/fixtures/javascripts/namespace/norequire.js",
      "test/fixtures/javascripts/norequire.js",
      "test/fixtures/javascripts/norequire.with.dot.in.name.js",
+     "test/fixtures/javascripts/relative_namespace/a.js",
+     "test/fixtures/javascripts/relative_namespace/b.js",
+     "test/fixtures/javascripts/relative_namespace/sub/a.js",
      "test/fixtures/javascripts/require_filename_with_dot.js",
      "test/fixtures/javascripts/require_filename_with_js.js",
      "test/fixtures/javascripts/require_namespaced_file.js",
      "test/fixtures/javascripts/require_non_existing_file.js",
+     "test/fixtures/javascripts/require_relative_namespaced_file.js",
      "test/fixtures/javascripts/requirecss.js",
      "test/fixtures/stylesheets/style.css",
      "test/helper.rb",
@@ -48,7 +52,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/aekym/jsrequire}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Organizes requirements of assets in JavaScript files}
   s.test_files = [
     "test/helper.rb",
@@ -60,7 +64,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
     else
     end
   else
