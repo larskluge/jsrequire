@@ -117,6 +117,10 @@ class TestJsRequire < Test::Unit::TestCase
       assert_equal additional_loadpaths, @jsrequire.instance_eval("@additional_loadpaths")
     end
 
+    should "work with CoffeeScript files, too" do
+      assert_requires("i_can_cook.coffee", ["coffee/other.coffee", "coffee/tea.js", "coffee/coke.coffee"])
+    end
+
   end
 
 

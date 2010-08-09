@@ -1,4 +1,5 @@
 class JsRequire
+  ALLOWED_EXTENSIONS = %w(coffee js)
 
   class FileNotFoundInLoadpath < ArgumentError; end
 
@@ -128,7 +129,7 @@ class JsRequire
   end
 
 
-  def find_file(filename, current_dir = nil)
+  def find_file_with_extension(filename, current_dir = nil)
     return filename if is_file?(filename)
 
     loadpaths = @extract_loadpaths + @additional_loadpaths
@@ -147,7 +148,21 @@ class JsRequire
       end
     end
 
-    raise FileNotFoundInLoadpath, "File '#{filename}' not found in loadpaths '#{loadpaths.join("', '")}'."
+    false
+  end
+
+  def find_file(filename, current_dir = nil)
+    file = false
+
+    file = find_file_with_extension(filename, current_dir)
+    return file unless file == false
+
+    ALLOWED_EXTENSIONS.each do |extension|
+      file = find_file_with_extension("#{filename}.#{extension}", current_dir)
+      return file unless file == false
+    end
+
+    raise FileNotFoundInLoadpath, "File '#{filename}' not found in loadpaths '#{(@extract_loadpaths + @additional_loadpaths).join("', '")}'."
   end
 
   def exec_preprocessor(action, parameter)
@@ -167,21 +182,12 @@ class JsRequire
     js = []
 
     File.open(filename, "r").each_line do |line|
-      if line =~ /^
-          \s*         # optional leading whitespace
-          \/\*\s*     # opening comment
-          (\w+)\s+    # action
-          (.*)        # parameter
-          \*\/\s*$/x  # closing comment
-
-        action = $1
-        parameter = $2.strip
-
+      if val = parse_line(line)
         # fire callbacks
-        action, parameter = exec_preprocessor(action, parameter)
+        action, parameter = exec_preprocessor(val[0], val[1])
 
         case action
-        when "js" then js << "#{parameter}.js"
+        when "js" then js << parameter
         end
       else
         break
@@ -189,6 +195,28 @@ class JsRequire
     end
 
     js.uniq.map { |f| find_file(f, File.dirname(filename)) }
+  end
+
+  def parse_line(line)
+    case line
+    when /^
+          \s*         # optional leading whitespace
+          \/\*\s*     # opening comment
+          (\w+)\s+    # action
+          (.*)        # parameter
+          \*\/\s*$    # closing comment
+        /x then
+      [$1, $2.strip]
+    when /^
+          \s*         # optional leading whitespace
+          \#\s*       # opening comment
+          (\w+)\s+    # action
+          (.*)$       # parameter
+        /x then
+      [$1, $2.strip]
+    else
+      nil
+    end
   end
 
 
