@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jsrequire}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["aekym"]
-  s.date = %q{2010-07-28}
+  s.date = %q{2010-08-10}
   s.description = %q{Organizes requirements of assets in JavaScript files, resolved dependencies of js files and helps include depending css files.}
   s.email = %q{me@aekym.com}
   s.extra_rdoc_files = [
@@ -28,8 +28,12 @@ Gem::Specification.new do |s|
      "test/fixtures/different-place/b.js",
      "test/fixtures/javascripts/a.js",
      "test/fixtures/javascripts/c.js",
+     "test/fixtures/javascripts/coffee/coke.coffee",
+     "test/fixtures/javascripts/coffee/other.coffee",
+     "test/fixtures/javascripts/coffee/tea.js",
      "test/fixtures/javascripts/file.with.dot.js",
      "test/fixtures/javascripts/hook.js",
+     "test/fixtures/javascripts/i_can_cook.coffee",
      "test/fixtures/javascripts/namespace/a.js",
      "test/fixtures/javascripts/namespace/json_reader.js",
      "test/fixtures/javascripts/namespace/norequire.js",
