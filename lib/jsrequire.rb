@@ -71,10 +71,14 @@ class JsRequire
   def self.web_path_helper(files, webroots)
     webroots = [webroots] unless webroots.is_a?(Enumerable)
 
+    webroots = webroots.inject({}) do |hsh, (wr, replacement)|
+      hsh[normalize_filepath(wr)] = replacement
+      hsh
+    end
+
     files.map do |f|
       rel_file = nil
       webroots.each do |wr, replacement|
-        wr = normalize_filepath(wr)
         rel_file = f.sub(/^#{Regexp.escape wr}/, replacement || '')
         break if rel_file != f
       end
