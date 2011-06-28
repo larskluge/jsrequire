@@ -71,10 +71,14 @@ class JsRequire
   def self.web_path_helper(files, webroots)
     webroots = [webroots] unless webroots.is_a?(Enumerable)
 
+    webroots = webroots.inject({}) do |hsh, (wr, replacement)|
+      hsh[normalize_filepath(wr)] = replacement
+      hsh
+    end
+
     files.map do |f|
       rel_file = nil
       webroots.each do |wr, replacement|
-        wr = normalize_filepath(wr)
         rel_file = f.sub(/^#{Regexp.escape wr}/, replacement || '')
         break if rel_file != f
       end
@@ -181,16 +185,18 @@ class JsRequire
     is_require = true
     js = []
 
-    File.open(filename, "r").each_line do |line|
-      if val = parse_line(line)
-        # fire callbacks
-        action, parameter = exec_preprocessor(val[0], val[1])
+    File.open(filename, "r") do |fp|
+      fp.each_line do |line|
+        if val = parse_line(line)
+          # fire callbacks
+          action, parameter = exec_preprocessor(val[0], val[1])
 
-        case action
-        when "js" then js << parameter
+          case action
+          when "js" then js << parameter
+          end
+        else
+          break
         end
-      else
-        break
       end
     end
 
